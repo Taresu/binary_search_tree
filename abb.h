@@ -8,11 +8,10 @@ typedef struct arvore {
 } Arvore;
 
 Arvore* cria_arvore_vazia (void);
-void arvore_libera (Arvore* a);
 Arvore* inserir (Arvore *a, int v);
 Arvore* remover (Arvore *a, int v);
 int buscar (Arvore *a, int v);
 void pre_order (Arvore* a);
-
+void arvore_libera (Arvore* a);
 
 #endif
