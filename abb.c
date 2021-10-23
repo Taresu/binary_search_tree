@@ -19,6 +19,9 @@ a = inserir (a, 45);
 printf("\n");
 printf("Percurso Pre-Ordem (arvore original): ");
 pre_order (a);	
+printf("\nElemento MIN: %d", min(a));
+printf("\nElemento MAX: %d", max(a));
+	
 printf("\n\n");
 
 int stop = 0, opcao, elem;
@@ -48,6 +51,10 @@ while (!stop) {
     printf("\n");
     printf("Percurso Pre-Ordem (nova arvore): ");
     pre_order (a);	
+
+    printf("\nElemento MIN: %d", min(a));
+    printf("\nElemento MAX: %d", max(a));
+    
     printf("\n\n");
 
     printf("Deseja parar? \n(1) SIM \n(0) NAO");
@@ -137,8 +144,26 @@ int buscar (Arvore *a, int v) {
     else {return 0;}
 }
 
-//========= Q2 - min =====
-//========= Q2 - max =====
+int min (Arvore *a){
+    int min_elem;
+
+    if (a == NULL) {return -1;}
+    else if (a->esq != NULL) {min_elem = min(a->esq);}
+    else {min_elem = a->info;}
+
+    return min_elem;
+}
+
+int max(Arvore *a) {
+    int max_elem;
+
+    if (a == NULL) {return -1;} 
+    else if(a->dir != NULL) {max_elem = max(a->dir);}
+    else {max_elem = a->info;}
+
+    return max_elem;
+}
+
 //========= Q4 - imprime_decrescent =====
 void pre_order (Arvore* a) {
     if (a != NULL) {
