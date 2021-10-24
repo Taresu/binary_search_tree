@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "abb.h"
 
 int main () {
-//int i;
+
 Arvore *a = cria_arvore_vazia ();
 
 a = inserir (a, 50);
@@ -19,6 +20,8 @@ a = inserir (a, 45);
 printf("\n");
 printf("Percurso Pre-Ordem (arvore original): ");
 pre_order (a);	
+printf("\nElementos em ordem decrescente:       ");
+imprime_decrescente(a);
 printf("\nElemento MIN: %d", min(a));
 printf("\nElemento MAX: %d", max(a));
 	
@@ -51,7 +54,8 @@ while (!stop) {
     printf("\n");
     printf("Percurso Pre-Ordem (nova arvore): ");
     pre_order (a);	
-
+    printf("\nElementos em ordem decrescente:       ");
+    imprime_decrescente(a);
     printf("\nElemento MIN: %d", min(a));
     printf("\nElemento MAX: %d", max(a));
     
@@ -62,9 +66,40 @@ while (!stop) {
     scanf("%d", &stop);
 }
 
-// ====== Q3 ====
-
 arvore_libera(a);
+
+Arvore *a2 = cria_arvore_vazia ();
+
+clock_t start, end;
+double elapsed_time;
+srand(time(NULL));
+
+start = clock();
+for (int i = 0; i < MAX; i++) {a2 = inserir(a2, i);}
+
+buscar (a2, MAX);
+end = clock();
+elapsed_time = (end - start)/(double)CLOCKS_PER_SEC;
+
+printf("\nTempo de busca (insercao crescente / arvore degenerada): %.2fs\n", elapsed_time);
+
+arvore_libera(a2);
+
+Arvore *a3 = cria_arvore_vazia ();
+
+start = clock();
+for (int i = 0; i < MAX; i++) {
+    int random_elem = rand() % 100000;
+    a3 = inserir(a3, random_elem);
+}
+
+buscar (a3, MAX);
+end = clock();
+elapsed_time = (end - start)/(double)CLOCKS_PER_SEC;
+
+printf("Tempo de busca (insercao aleatoria / arvore nao degenerada): %.2fs\n\n", elapsed_time);
+
+arvore_libera(a3);
 
 return 0;
 }
@@ -139,7 +174,7 @@ return a;
 
 int buscar (Arvore *a, int v) {
     if (a == NULL) {return 0;}
-    if (v < a->info) {return buscar(a->esq, v);}
+    else if (v < a->info) {return buscar(a->esq, v);}
     else if (v > a->info) {return buscar(a->dir, v);}
     else {return 0;}
 }
@@ -164,7 +199,15 @@ int max(Arvore *a) {
     return max_elem;
 }
 
-//========= Q4 - imprime_decrescent =====
+void imprime_decrescente (Arvore* a) {
+    //Percurso In-ordem invertido
+    if(a == NULL) {return;}
+
+    imprime_decrescente(a->dir);
+    printf("%d ", a->info);
+    imprime_decrescente(a->esq);
+}
+
 void pre_order (Arvore* a) {
     if (a != NULL) {
         printf("%d ", a->info);
