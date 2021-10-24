@@ -24,6 +24,7 @@ printf("\nElementos em ordem decrescente:       ");
 imprime_decrescente(a);
 printf("\nElemento MIN: %d", min(a));
 printf("\nElemento MAX: %d", max(a));
+printf("\nSoma dos elementos do maior ramo: %d", maior_ramo(a));
 	
 printf("\n\n");
 
@@ -54,10 +55,11 @@ while (!stop) {
     printf("\n");
     printf("Percurso Pre-Ordem (nova arvore): ");
     pre_order (a);	
-    printf("\nElementos em ordem decrescente:       ");
+    printf("\nElementos em ordem decrescente: ");
     imprime_decrescente(a);
     printf("\nElemento MIN: %d", min(a));
     printf("\nElemento MAX: %d", max(a));
+    printf("\nSoma dos elementos do maior ramo: %d", maior_ramo(a));
     
     printf("\n\n");
 
@@ -206,6 +208,17 @@ void imprime_decrescente (Arvore* a) {
     imprime_decrescente(a->dir);
     printf("%d ", a->info);
     imprime_decrescente(a->esq);
+}
+
+int maior_ramo (Arvore *a){
+
+    if(a == NULL) {return 0;}
+
+    int s_esq = maior_ramo(a->esq) + a->info;
+    int s_dir = maior_ramo(a->dir) + a->info;
+
+    if(s_esq > s_dir) {return s_esq;}
+    else  {return s_dir;}
 }
 
 void pre_order (Arvore* a) {
