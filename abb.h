@@ -19,6 +19,7 @@ int total_sum (Arvore* a);
 int maior_ramo (Arvore* a);
 int min (Arvore *a);
 int max (Arvore *a);
+Arvore* ancestral (Arvore* a, int e1, int e2);
 void arvore_libera (Arvore* a);
 
 #endif

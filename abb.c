@@ -25,14 +25,15 @@ imprime_decrescente(a);
 printf("\nElemento MIN: %d", min(a));
 printf("\nElemento MAX: %d", max(a));
 printf("\nSoma dos elementos do maior ramo: %d", maior_ramo(a));
-	
+
 printf("\n\n");
 
-int stop = 0, opcao, elem;
+int stop = 0, opcao, elem, no1, no2;
 while (!stop) {
     do {
     printf("Digite (1) para inserir um elemento na arvore\n");
-    printf("Digite (2) para remover um elemento da arvore\n\n");
+    printf("Digite (2) para remover um elemento da arvore\n");
+    printf("Digite (3) para encontrar o ancestral comum de dois nos\n\n");
     printf(">>> ");
 
     scanf("%d", &opcao);
@@ -46,11 +47,22 @@ while (!stop) {
                 scanf("%d", &elem);
                 remover (a, elem);
                 break;
+        case 3: do {
+                printf("\nNo 1: ");
+                scanf("%d", &no1);
+                printf("No 2: ");
+                scanf("%d", &no2);
+                if((buscar(a, no1) == 0) || (buscar(a, no2) == 0)){ 
+                    printf("\nDigite dois nos existentes na arvore!\a\n\n");
+                }
+                }while ((buscar(a, no1) == 0) || (buscar(a, no2) == 0));
+                Arvore *t = ancestral(a, no1, no2);
+                printf("O ancestral comum de maior nivel dos nos %d e %d eh %d", no1, no2, t->info);
+                break;
         default:printf("\nInsira uma opcao valida!\a\n\n");
                 break;
     }
-
-    }while (opcao != 1 && opcao != 2);
+    }while (opcao != 1 && opcao != 2 && opcao != 3);
 
     printf("\n");
     printf("Percurso Pre-Ordem (nova arvore): ");
@@ -178,7 +190,7 @@ int buscar (Arvore *a, int v) {
     if (a == NULL) {return 0;}
     else if (v < a->info) {return buscar(a->esq, v);}
     else if (v > a->info) {return buscar(a->dir, v);}
-    else {return 0;}
+    else {return 1;}
 }
 
 int min (Arvore *a){
@@ -211,7 +223,6 @@ void imprime_decrescente (Arvore* a) {
 }
 
 int maior_ramo (Arvore *a){
-
     if(a == NULL) {return 0;}
 
     int s_esq = maior_ramo(a->esq) + a->info;
@@ -228,3 +239,16 @@ void pre_order (Arvore* a) {
         pre_order (a->dir);
     } 
 }
+
+Arvore* ancestral (Arvore* a, int e1, int e2) {
+    if(a == NULL) {return NULL;} //Árvore vazia, sem nós
+
+    else {
+        if(a->info > e1 && a->info > e2) {return ancestral (a->esq, e1, e2);}
+        
+        if(a->info < e1 && a->info < e2) {return ancestral (a->dir, e1, e2);}
+
+        return a;
+    }
+}
+
