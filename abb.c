@@ -17,23 +17,55 @@ a = inserir (a, 10);
 a = inserir (a, 35);
 a = inserir (a, 45);
 
+printf("\n\t       | ABB - Arvore Binaria de Busca |\n");
 printf("\n");
 printf("Percurso Pre-Ordem (arvore original): ");
 pre_order (a);	
 printf("\nElementos em ordem decrescente:       ");
 imprime_decrescente(a);
-printf("\nElemento MIN: %d", min(a));
+printf("\n\nElemento MIN: %d", min(a));
 printf("\nElemento MAX: %d", max(a));
-printf("\nSoma dos elementos do maior ramo: %d", maior_ramo(a));
+printf("\n\nSoma dos elementos do maior ramo (numericamente): %d\n\n", maior_ramo(a));
 
-printf("\n\n");
+Arvore *crescent_a = cria_arvore_vazia ();
+
+clock_t start, end;
+double elapsed_time;
+srand(time(NULL));
+
+start = clock();
+for (int i = 0; i < MAX; i++) {crescent_a = inserir(crescent_a, i);}
+
+buscar (crescent_a, MAX);
+end = clock();
+elapsed_time = (end - start)/(double)CLOCKS_PER_SEC;
+
+printf("Tempo de busca (insercao crescente / arvore degenerada): %.2fs\n", elapsed_time);
+
+arvore_libera(crescent_a);
+
+Arvore *random_a = cria_arvore_vazia ();
+
+start = clock();
+for (int i = 0; i < MAX; i++) {
+    int random_elem = rand() % 100000;
+    random_a = inserir(random_a, random_elem);
+}
+
+buscar (random_a, MAX);
+end = clock();
+elapsed_time = (end - start)/(double)CLOCKS_PER_SEC;
+
+printf("Tempo de busca (insercao aleatoria / arvore nao degenerada): %.2fs\n\n", elapsed_time);
+
+arvore_libera(random_a);
 
 int stop = 0, opcao, elem, no1, no2;
 while (!stop) {
     do {
     printf("Digite (1) para inserir um elemento na arvore\n");
     printf("Digite (2) para remover um elemento da arvore\n");
-    printf("Digite (3) para encontrar o ancestral comum de dois nos\n\n");
+    printf("Digite (3) para encontrar o ancestral comum de menor nivel de dois nos\n\n");
     printf(">>> ");
 
     scanf("%d", &opcao);
@@ -57,7 +89,7 @@ while (!stop) {
                 }
                 }while ((buscar(a, no1) == 0) || (buscar(a, no2) == 0));
                 Arvore *t = ancestral(a, no1, no2);
-                printf("O ancestral comum de maior nivel dos nos %d e %d eh %d", no1, no2, t->info);
+                printf("O ancestral comum de menor nivel dos nos %d e %d eh %d", no1, no2, t->info);
                 break;
         default:printf("\nInsira uma opcao valida!\a\n\n");
                 break;
@@ -81,39 +113,6 @@ while (!stop) {
 }
 
 arvore_libera(a);
-
-Arvore *a2 = cria_arvore_vazia ();
-
-clock_t start, end;
-double elapsed_time;
-srand(time(NULL));
-
-start = clock();
-for (int i = 0; i < MAX; i++) {a2 = inserir(a2, i);}
-
-buscar (a2, MAX);
-end = clock();
-elapsed_time = (end - start)/(double)CLOCKS_PER_SEC;
-
-printf("\nTempo de busca (insercao crescente / arvore degenerada): %.2fs\n", elapsed_time);
-
-arvore_libera(a2);
-
-Arvore *a3 = cria_arvore_vazia ();
-
-start = clock();
-for (int i = 0; i < MAX; i++) {
-    int random_elem = rand() % 100000;
-    a3 = inserir(a3, random_elem);
-}
-
-buscar (a3, MAX);
-end = clock();
-elapsed_time = (end - start)/(double)CLOCKS_PER_SEC;
-
-printf("Tempo de busca (insercao aleatoria / arvore nao degenerada): %.2fs\n\n", elapsed_time);
-
-arvore_libera(a3);
 
 return 0;
 }
