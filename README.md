@@ -3,7 +3,10 @@
 
 #### The left subtree of a node contains only nodes with keys smaller than the node's key, and on the right, larger ones.
 
-**Tree used for the project:** https://i.imgur.com/GxlbvKK.png  
+**Tree used for the project:**
+
+![image](https://user-images.githubusercontent.com/83923976/180348820-e05cf550-a2e4-44aa-b765-b8b0b8998734.png)
+
 
 First, we insert the elements (50, 30, 90, 20, 40, 95, 10, 35, 45) in the tree in an orderly way, to form a binary search tree.
 
